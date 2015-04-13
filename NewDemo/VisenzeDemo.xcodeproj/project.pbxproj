@@ -31,6 +31,7 @@
 		A94083241ADB6E29008F8D14 /* ImageResult.m in Sources */ = {isa = PBXBuildFile; fileRef = A94083131ADB6E29008F8D14 /* ImageResult.m */; };
 		A94083251ADB6E29008F8D14 /* ViSearchError.m in Sources */ = {isa = PBXBuildFile; fileRef = A94083151ADB6E29008F8D14 /* ViSearchError.m */; };
 		A94083261ADB6E29008F8D14 /* ViSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = A94083171ADB6E29008F8D14 /* ViSearchResult.m */; };
+		A940832A1ADBA39D008F8D14 /* SearchClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A94083291ADBA39D008F8D14 /* SearchClient.m */; };
 		A952726F1AC128A600D66958 /* CameraOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A952726E1AC128A600D66958 /* CameraOverlayViewController.m */; };
 		A95272711AC147B300D66958 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A95272701AC147B300D66958 /* ImageIO.framework */; };
 		A95272731AC147BD00D66958 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A95272721AC147BD00D66958 /* CoreVideo.framework */; };
@@ -98,6 +99,8 @@
 		A94083151ADB6E29008F8D14 /* ViSearchError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViSearchError.m; sourceTree = "<group>"; };
 		A94083161ADB6E29008F8D14 /* ViSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViSearchResult.h; sourceTree = "<group>"; };
 		A94083171ADB6E29008F8D14 /* ViSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViSearchResult.m; sourceTree = "<group>"; };
+		A94083281ADBA39D008F8D14 /* SearchClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchClient.h; sourceTree = "<group>"; };
+		A94083291ADBA39D008F8D14 /* SearchClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchClient.m; sourceTree = "<group>"; };
 		A952726D1AC128A600D66958 /* CameraOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraOverlayViewController.h; sourceTree = "<group>"; };
 		A952726E1AC128A600D66958 /* CameraOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraOverlayViewController.m; sourceTree = "<group>"; };
 		A95272701AC147B300D66958 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -174,6 +177,7 @@
 		A909818C1AC100BA00914DC3 /* VisenzeDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A94083271ADBA37C008F8D14 /* SearchClient */,
 				A90093941AD38C1000F18A3A /* misc */,
 				A9C22E501AC2B1B900135879 /* Res */,
 				A9C22E4C1AC2A0F700135879 /* ViewControllers */,
@@ -274,6 +278,15 @@
 				A94083171ADB6E29008F8D14 /* ViSearchResult.m */,
 			);
 			path = ViSearchResult;
+			sourceTree = "<group>";
+		};
+		A94083271ADBA37C008F8D14 /* SearchClient */ = {
+			isa = PBXGroup;
+			children = (
+				A94083281ADBA39D008F8D14 /* SearchClient.h */,
+				A94083291ADBA39D008F8D14 /* SearchClient.m */,
+			);
+			name = SearchClient;
 			sourceTree = "<group>";
 		};
 		A9C22E4C1AC2A0F700135879 /* ViewControllers */ = {
@@ -414,6 +427,7 @@
 				A94083181ADB6E29008F8D14 /* NSString+HMAC_SHA1.m in Sources */,
 				A94083241ADB6E29008F8D14 /* ImageResult.m in Sources */,
 				A940831C1ADB6E29008F8D14 /* ColorSearchParams.m in Sources */,
+				A940832A1ADBA39D008F8D14 /* SearchClient.m in Sources */,
 				A9C22E4F1AC2A11D00135879 /* ImageCropViewController.m in Sources */,
 				A90093931AD38BC200F18A3A /* UIColor+UIColor_ToHex.m in Sources */,
 				A940831B1ADB6E29008F8D14 /* Box.m in Sources */,

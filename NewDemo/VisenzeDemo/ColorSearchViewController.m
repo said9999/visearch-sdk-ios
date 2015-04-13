@@ -10,6 +10,7 @@
 #import "ViSearchAPI.h"
 #import "UIColor+UIColor_ToHex.h"
 #import "ColorSearchResultCell.h"
+#import "SearchClient.h"
 
 @interface ColorSearchViewController ()
 
@@ -17,7 +18,6 @@
 
 @implementation ColorSearchViewController {
     UIActivityIndicatorView  *av;
-    NSArray *searchResults;
     NSMutableDictionary *imageUrlCache;
     dispatch_queue_t imgLoadQ;
     BOOL colorOnTop;
@@ -32,7 +32,9 @@
     self.secondCollectionView.delegate = self;
     self.secondCollectionView.dataSource = self;
     
-    searchResults = [NSArray array];
+    if (!self.searchResults) {
+        self.searchResults = [NSArray array];
+    }
     imageUrlCache = [NSMutableDictionary dictionary];
     
     _state = DisplayColor;
@@ -63,7 +65,7 @@
         cell.backgroundColor = [UIColor grayColor];
         
         dispatch_async(imgLoadQ, ^{
-            ImageResult *result = [searchResults objectAtIndex:indexPath.row];
+            ImageResult *result = [self.searchResults objectAtIndex:indexPath.row];
             NSURL *url = [NSURL URLWithString:result.url];
             NSData *data = [NSData dataWithContentsOfURL:url];
             
@@ -111,9 +113,9 @@
         param.color = [UIColor toHexStringFrom:cell.backgroundColor];
         param.fl = @[@"im_url"];
         
-        [[ViSearchAPI defaultClient] searchWithColor:param success:^(NSInteger statusCode, ViSearchResult *data, NSError *error) {
+        [[SearchClient sharedInstance] searchWithColor:param success:^(NSInteger statusCode, ViSearchResult *data, NSError *error) {
             _state = DisplayResults;
-            searchResults = data.imageResultsArray;
+            self.searchResults = data.imageResultsArray;
             
             [av performSelectorOnMainThread:@selector(stopAnimating) withObject:nil waitUntilDone:NO];
             
@@ -129,7 +131,8 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return (collectionView == self.collectionView) ? self.colorList.count : searchResults.count;
+    NSLog(@"%d", collectionView.hidden == YES);
+    return (collectionView == self.collectionView) ? self.colorList.count : self.searchResults.count;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {

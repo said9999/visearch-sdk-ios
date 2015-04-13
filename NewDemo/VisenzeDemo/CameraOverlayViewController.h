@@ -18,6 +18,7 @@
 
 - (IBAction)shootClicked:(id)sender;
 - (IBAction)backClicked:(id)sender;
+- (IBAction)albumButtonClicked:(id)sender;
 
 @end
  

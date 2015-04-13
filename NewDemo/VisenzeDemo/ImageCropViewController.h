@@ -10,8 +10,10 @@
 
 @interface ImageCropViewController : UIViewController
 
-@property (strong, nonatomic) UIImage *image;
-@property (strong, nonatomic) IBOutlet UIView *imagePreview;
+@property (strong, nonatomic) UIImage *image; // original image bind to the controller
+@property (strong, nonatomic) IBOutlet UIView *imagePreview; // A background view of display view.
+@property (strong, nonatomic) UIImageView *displayView; // uiimageview of the original image
+@property (strong, nonatomic) UIImageView *scalerView; // scale box view
 
 - (IBAction)backClicked:(id)sender;
 - (IBAction)searchClicked:(id)sender;

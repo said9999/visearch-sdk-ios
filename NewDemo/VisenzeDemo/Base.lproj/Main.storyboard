@@ -107,27 +107,48 @@
                                             <action selector="shootClicked:" destination="fWk-Re-Jcg" eventType="touchUpInside" id="vCP-9d-nG3"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BBC-qK-jAU">
+                                        <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                        <state key="normal" title="Lib">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="albumButtonClicked:" destination="fWk-Re-Jcg" eventType="touchUpInside" id="72b-xg-u1o"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.10980392156862745" green="0.12941176470588237" blue="0.15294117647058825" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstItem="BBC-qK-jAU" firstAttribute="leading" secondItem="Xta-a1-q7U" secondAttribute="leading" constant="28" id="9mA-hl-a73"/>
                                     <constraint firstAttribute="centerY" secondItem="Gbs-OW-7cF" secondAttribute="centerY" id="HJB-uA-lJJ"/>
                                     <constraint firstAttribute="centerX" secondItem="Gbs-OW-7cF" secondAttribute="centerX" id="eCh-up-wcy"/>
+                                    <constraint firstAttribute="centerY" secondItem="BBC-qK-jAU" secondAttribute="centerY" id="tVQ-PG-AHS"/>
                                 </constraints>
                                 <variation key="default">
+                                    <mask key="subviews">
+                                        <exclude reference="BBC-qK-jAU"/>
+                                    </mask>
                                     <mask key="constraints">
+                                        <exclude reference="9mA-hl-a73"/>
+                                        <exclude reference="tVQ-PG-AHS"/>
                                         <exclude reference="HJB-uA-lJJ"/>
                                         <exclude reference="eCh-up-wcy"/>
                                     </mask>
                                 </variation>
                                 <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="subviews">
+                                        <include reference="BBC-qK-jAU"/>
+                                    </mask>
                                     <mask key="constraints">
+                                        <include reference="9mA-hl-a73"/>
+                                        <include reference="tVQ-PG-AHS"/>
                                         <include reference="HJB-uA-lJJ"/>
                                         <include reference="eCh-up-wcy"/>
                                     </mask>
                                 </variation>
                             </view>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B4b-hY-Yoq" userLabel="UpperView">
-                                <rect key="frame" x="39" y="0.0" width="513" height="45"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="B4b-hY-Yoq" userLabel="UpperView">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZCE-Qd-O2c">
                                         <rect key="frame" x="-23" y="-15" width="46" height="30"/>
@@ -371,7 +392,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <action selector="backButtonClicked:" destination="FVG-bH-6K6" eventType="touchUpInside" id="LVb-1A-7Fk"/>
+                                            <action selector="backButtonClicked:" destination="FVG-bH-6K6" eventType="touchUpInside" id="mf0-mn-rKR"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -595,9 +616,9 @@
                         </variation>
                     </view>
                     <connections>
-                        <outlet property="collectionView" destination="gds-uO-Guz" id="uVj-Or-HrY"/>
-                        <outlet property="panelView" destination="MTB-g8-oYS" id="31i-E5-J8m"/>
-                        <outlet property="secondCollectionView" destination="1BZ-wr-HLf" id="J5R-fd-Jhu"/>
+                        <outlet property="collectionView" destination="gds-uO-Guz" id="YYy-c2-buU"/>
+                        <outlet property="panelView" destination="MTB-g8-oYS" id="N4R-iA-HJm"/>
+                        <outlet property="secondCollectionView" destination="1BZ-wr-HLf" id="Lls-Qc-kh4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="et2-CO-oGe" userLabel="First Responder" sceneMemberID="firstResponder"/>

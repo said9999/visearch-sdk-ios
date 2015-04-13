@@ -19,6 +19,7 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UICollectionView *secondCollectionView;
 @property NSArray *colorList;
+@property NSArray *searchResults;
 @property (readonly) ColorSearchState state;
 
 - (IBAction)backButtonClicked:(id)sender;

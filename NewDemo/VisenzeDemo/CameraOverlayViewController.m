@@ -8,18 +8,23 @@
 
 #import "CameraOverlayViewController.h"
 #import "ImageCropViewController.h"
+@import MobileCoreServices;
 
-@interface CameraOverlayViewController ()
+@interface CameraOverlayViewController ()<UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
 @end
 
-@implementation CameraOverlayViewController
+@implementation CameraOverlayViewController {
+    UIImagePickerController *picker;
+}
 
 #pragma mark - LifeCycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Do any additional setup after loading the view.
+    picker = [[UIImagePickerController alloc] init];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -98,18 +103,53 @@
         self.capturedImage = [[UIImage alloc] initWithData:imageData];
         
         if (self.capturedImage) {
-            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            ImageCropViewController *vc = (ImageCropViewController *)[sb instantiateViewControllerWithIdentifier:@"image_crop"];
-            
-            vc.image = self.capturedImage;
-            
-            [self presentViewController:vc animated:NO completion:nil];
+            [self displayImageCropViewControllerWith:self.capturedImage];
         }
-
      }];
 }
 
 - (IBAction)backClicked:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+- (IBAction)albumButtonClicked:(id)sender {
+    picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    picker.mediaTypes = @[(NSString *)kUTTypeImage];
+    picker.delegate = self;
+    
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+#pragma mark image picker delegate
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    UIImage *originalImage;
+    
+    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeImage, 0)
+        == kCFCompareEqualTo) {
+        originalImage = (UIImage *) [info objectForKey:
+                                     UIImagePickerControllerOriginalImage];
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+        [self displayImageCropViewControllerWith:originalImage];
+    }
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark private methods
+
+- (void)displayImageCropViewControllerWith:(UIImage *)image {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ImageCropViewController *vc = (ImageCropViewController *)[sb instantiateViewControllerWithIdentifier:@"image_crop"];
+    
+    vc.image = image;
+    
+    [self presentViewController:vc animated:YES completion:nil];
+
+}
+
 @end
