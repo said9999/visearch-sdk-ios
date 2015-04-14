@@ -97,7 +97,9 @@ static CGFloat const MINIMUM_WIDTH = 100;
     UploadSearchParams *params = [[UploadSearchParams alloc] init];
     
     params.imageFile = self.image;
-    params.box = [[Box alloc] initWithX1:self.scalerView.frame.origin.x y1:self.scalerView.frame.origin.y x2:self.scalerView.frame.origin.x + self.scalerView.frame.size.width y2:self.scalerView.frame.origin.y + self.scalerView.frame.size.height];
+    CGFloat scale = (self.image.size.height > self.image.size.width) ? self.image.size.height / self.displayView.frame.size.height : self.image.size.width / self.displayView.frame.size.width;
+    
+    params.box = [[Box alloc] initWithX1:self.scalerView.frame.origin.x * scale y1:self.scalerView.frame.origin.y * scale x2:(self.scalerView.frame.origin.x  + self.scalerView.frame.size.width) * scale y2:(self.scalerView.frame.origin.y + self.scalerView.frame.size.height) * scale];
     NSLog(@"%d",params.box.x1);
     
     params.fl = @[@"im_url"];

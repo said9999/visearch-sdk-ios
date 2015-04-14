@@ -27,7 +27,7 @@
     NSDictionary * dict = [super toDict];
     if (imageFile != nil){
         if (box) {
-            if (compressedImage != nil)
+            if (compressedImage)
                 [dict setValue: [NSString stringWithFormat:@"%d,%d,%d,%d", (int)(box.x1*compressedImage.size.width/imageFile.size.width), (int)(box.y1*compressedImage.size.height/imageFile.size.height), (int)(box.x2*compressedImage.size.width/imageFile.size.width), (int)(box.y2*compressedImage.size.height/imageFile.size.height)]  forKey:@"box"];
             else
                 [dict setValue: [NSString stringWithFormat:@"%d,%d,%d,%d", box.x1, box.y1, box.x2, box.y2]  forKey:@"box"];
@@ -42,15 +42,16 @@
     NSString *boundary = [object objectForKey:@"boundary"];
     
     float myQuality = self.settings.quality;
-    float myMaxWidth = (self.settings.maxWidth > 1024) ? 1024 : self.settings.maxWidth; // maxWidth should not larger than 1024
-    
+    CGFloat scale = [[UIScreen mainScreen] scale];
+    float myMaxWidth = (self.settings.maxWidth > (1024 / scale) ) ? (1024 / scale): self.settings.maxWidth; // maxWidth should not larger than 1024pixel
+
     //compress uiimage into nsdata
     NSData *imageData = [self compressImage:self.imageFile maxWidth:myMaxWidth quality:myQuality];
     self.compressedImage = [UIImage imageWithData: imageData];
     
     // post body
     NSMutableData *body = [[NSMutableData alloc] init];
-    
+    NSLog(@"the image size is %lu", imageData.length);
     // add image data
     if (imageData) {
         [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
@@ -91,7 +92,8 @@
             actualWidth = mWidth;
         }
     }
-    CGRect rect = CGRectMake(0.0, 0.0, actualWidth, actualHeight);
+    
+    CGRect rect = CGRectMake(0.0, 0.0, actualWidth * [UIScreen mainScreen].scale, actualHeight * [UIScreen mainScreen].scale);
     UIGraphicsBeginImageContext(rect.size);
     [image drawInRect:rect];
     UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
