@@ -15,7 +15,7 @@
     static ViSearchClient *client = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        client = [[ViSearchClient alloc] initWithBaseUrl:nil accessKey:@"b2b376be9a7c63189dcc8a7b1e7f962c" secretKey:@"4bc4df401569831b69cd1a5d811d7c81"];
+        client = [[ViSearchClient alloc] initWithBaseUrl:nil accessKey:@"0a7559fbaa885bba83e2b10e2bbdb09c" secretKey:@"451a70561e967f76313d512a43fbf2b3"];
     });
     
     return client;

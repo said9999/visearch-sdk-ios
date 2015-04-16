@@ -13,7 +13,7 @@
 + (ImageSettings *)defaultSettings {
     ImageSettings *settings = [ImageSettings new];
     settings.quality = 0.9;
-    settings.maxWidth = 512 / [[UIScreen mainScreen] scale];
+    settings.maxWidth = 512;
     
     return settings;
 }
@@ -21,7 +21,7 @@
 + (ImageSettings *)highqualitySettings {
     ImageSettings *settings = [ImageSettings new];
     settings.quality = 0.9;
-    settings.maxWidth = 1024 / [[UIScreen mainScreen] scale];
+    settings.maxWidth = 1024;
     
     return settings;
 }
@@ -30,7 +30,6 @@
     if (self = [super init]) {
         self.quality = quality_;
         self.maxWidth = (size.height > size.width) ? size.height : size.width;
-        self.maxWidth = self.maxWidth / [[UIScreen mainScreen] scale];
     }
     
     return self;

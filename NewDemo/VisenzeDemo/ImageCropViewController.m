@@ -99,9 +99,10 @@ static CGFloat const MINIMUM_WIDTH = 100;
     params.imageFile = self.image;
     CGFloat scale = (self.image.size.height > self.image.size.width) ? self.image.size.height / self.displayView.frame.size.height : self.image.size.width / self.displayView.frame.size.width;
     
+    NSLog(@"%lf", self.displayView.frame.size.width);
     params.box = [[Box alloc] initWithX1:self.scalerView.frame.origin.x * scale y1:self.scalerView.frame.origin.y * scale x2:(self.scalerView.frame.origin.x  + self.scalerView.frame.size.width) * scale y2:(self.scalerView.frame.origin.y + self.scalerView.frame.size.height) * scale];
-    NSLog(@"%d",params.box.x1);
     
+    NSLog(@"%d %d %d %d", params.box.x1, params.box.y1, params.box.x2, params.box.y2);
     params.fl = @[@"im_url"];
     
     [[SearchClient sharedInstance] searchWithImageData:params success:^(NSInteger statusCode, ViSearchResult *data, NSError *error) {
