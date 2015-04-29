@@ -11,5 +11,6 @@
 @interface UIColor (UIColor_ToHex)
 
 + (NSString *)toHexStringFrom:(UIColor *)color;
++ (UIColor *)colorFromHexString:(NSString *)colorString;
 
 @end

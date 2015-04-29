@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <ImageIO/ImageIO.h>
 #import <AVFoundation/AVFoundation.h>
+#import "AbstractViewController.h"
 
-@interface CameraOverlayViewController : UIViewController
+@interface CameraOverlayViewController : AbstractViewController
 
 @property (weak, nonatomic) IBOutlet UIView *imagePreview;
 @property (nonatomic) AVCaptureStillImageOutput *stillImageOutput;

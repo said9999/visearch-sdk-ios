@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AbstractViewController.h"
 
 typedef enum {
     DisplayColor,
     DisplayResults
 } ColorSearchState;
 
-@interface ColorSearchViewController : UIViewController<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface ColorSearchViewController : AbstractViewController<UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UIView *panelView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;

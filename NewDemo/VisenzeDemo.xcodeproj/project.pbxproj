@@ -36,6 +36,8 @@
 		A95272711AC147B300D66958 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A95272701AC147B300D66958 /* ImageIO.framework */; };
 		A95272731AC147BD00D66958 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A95272721AC147BD00D66958 /* CoreVideo.framework */; };
 		A95272751AC147C200D66958 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A95272741AC147C200D66958 /* CoreMedia.framework */; };
+		A9872E5E1AF090C000319BFB /* ScaleUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = A9872E5D1AF090C000319BFB /* ScaleUIView.m */; };
+		A9872E611AF0A5DB00319BFB /* AbstractViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9872E601AF0A5DB00319BFB /* AbstractViewController.m */; };
 		A9BFB8A01AD291B900474D5E /* ColorSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9BFB89F1AD291B900474D5E /* ColorSearchViewController.m */; };
 		A9C22E4F1AC2A11D00135879 /* ImageCropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A9C22E4E1AC2A11D00135879 /* ImageCropViewController.m */; };
 		A9C22E521AC2B1D300135879 /* scaler.png in Resources */ = {isa = PBXBuildFile; fileRef = A9C22E511AC2B1D300135879 /* scaler.png */; };
@@ -117,6 +119,10 @@
 		A95272701AC147B300D66958 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		A95272721AC147BD00D66958 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		A95272741AC147C200D66958 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		A9872E5C1AF090C000319BFB /* ScaleUIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleUIView.h; sourceTree = "<group>"; };
+		A9872E5D1AF090C000319BFB /* ScaleUIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScaleUIView.m; sourceTree = "<group>"; };
+		A9872E5F1AF0A5DB00319BFB /* AbstractViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractViewController.h; sourceTree = "<group>"; };
+		A9872E601AF0A5DB00319BFB /* AbstractViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractViewController.m; sourceTree = "<group>"; };
 		A9BFB89E1AD291B900474D5E /* ColorSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorSearchViewController.h; sourceTree = "<group>"; };
 		A9BFB89F1AD291B900474D5E /* ColorSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorSearchViewController.m; sourceTree = "<group>"; };
 		A9C22E4D1AC2A11D00135879 /* ImageCropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCropViewController.h; sourceTree = "<group>"; };
@@ -159,6 +165,7 @@
 		A90093941AD38C1000F18A3A /* misc */ = {
 			isa = PBXGroup;
 			children = (
+				A9872E5B1AF0909A00319BFB /* ScaleUIView */,
 				A90093911AD38BC200F18A3A /* UIColor+UIColor_ToHex.h */,
 				A90093921AD38BC200F18A3A /* UIColor+UIColor_ToHex.m */,
 			);
@@ -312,6 +319,15 @@
 			name = SearchClient;
 			sourceTree = "<group>";
 		};
+		A9872E5B1AF0909A00319BFB /* ScaleUIView */ = {
+			isa = PBXGroup;
+			children = (
+				A9872E5C1AF090C000319BFB /* ScaleUIView.h */,
+				A9872E5D1AF090C000319BFB /* ScaleUIView.m */,
+			);
+			name = ScaleUIView;
+			sourceTree = "<group>";
+		};
 		A9C22E4C1AC2A0F700135879 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -322,6 +338,8 @@
 				A9C22E4E1AC2A11D00135879 /* ImageCropViewController.m */,
 				A9BFB89E1AD291B900474D5E /* ColorSearchViewController.h */,
 				A9BFB89F1AD291B900474D5E /* ColorSearchViewController.m */,
+				A9872E5F1AF0A5DB00319BFB /* AbstractViewController.h */,
+				A9872E601AF0A5DB00319BFB /* AbstractViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -465,6 +483,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9872E611AF0A5DB00319BFB /* AbstractViewController.m in Sources */,
 				A940831D1ADB6E29008F8D14 /* ImageSettings.m in Sources */,
 				A94083251ADB6E29008F8D14 /* ViSearchError.m in Sources */,
 				A9BFB8A01AD291B900474D5E /* ColorSearchViewController.m in Sources */,
@@ -478,6 +497,7 @@
 				A94083191ADB6E29008F8D14 /* ViSearchAPI.m in Sources */,
 				A94083181ADB6E29008F8D14 /* NSString+HMAC_SHA1.m in Sources */,
 				A94083241ADB6E29008F8D14 /* ImageResult.m in Sources */,
+				A9872E5E1AF090C000319BFB /* ScaleUIView.m in Sources */,
 				A940831C1ADB6E29008F8D14 /* ColorSearchParams.m in Sources */,
 				A940832A1ADBA39D008F8D14 /* SearchClient.m in Sources */,
 				A9C22E4F1AC2A11D00135879 /* ImageCropViewController.m in Sources */,

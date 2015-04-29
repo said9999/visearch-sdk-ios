@@ -10,6 +10,7 @@
 #import "CameraOverlayViewController.h"
 #import "ImageCropViewController.h"
 #import "ColorSearchViewController.h"
+#import "UIColor+UIColor_ToHex.h"
 
 @interface ViewController ()
 
@@ -46,10 +47,37 @@
 - (IBAction)colorButtonClicked:(id)sender {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ColorSearchViewController *cvc = (ColorSearchViewController *)[sb instantiateViewControllerWithIdentifier:@"color_search"];
-    cvc.colorList = @[@1,@2,@3,@4,@5,@6,@7,@8,@9];
+    
+    NSArray *colors = @[@"#000000",
+                        @"#ffffff",
+                        @"#d70216",
+                        @"#fc6020",
+                        @"#fdbe2c",
+                        @"#dffd35",
+                        @"#83fd31",
+                        @"#00fd49",
+                        @"#00b249",
+                        @"#2afda2",
+                        @"#2dfffe",
+                        @"#1ba1fc",
+                        @"#3167fb",
+                        @"#2355fb",
+                        @"#7e25fb",
+                        @"#e85dfc",
+                        @"#fc1ebd",
+                        @"#fd1261",];
+    
+
+    NSMutableArray *colorList = [NSMutableArray array];
+    for (NSString *colorString in colors) {
+        [colorList addObject:[UIColor colorFromHexString:colorString]];
+    }
+    cvc.colorList = colorList;
     
     [self presentViewController:cvc animated:YES completion:nil];
 }
+
+#pragma mark - App Delegate
 
 - (BOOL)prefersStatusBarHidden {
     return YES;

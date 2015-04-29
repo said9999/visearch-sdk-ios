@@ -31,12 +31,16 @@ static CGFloat const MINIMUM_WIDTH = 100;
 
 @implementation ImageCropViewController {
     CGRect imgFrame;
+    UIActivityIndicatorView *spinner;
 }
 
 #pragma mark - Life Cycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    spinner.frame = CGRectMake(0, 0, 25, 25);
     // Do any additional setup after loading the view.
 }
 
@@ -44,40 +48,42 @@ static CGFloat const MINIMUM_WIDTH = 100;
     [super viewDidAppear:YES];
     
     // Add captured image
-    self.displayView = [[UIImageView alloc] initWithImage:self.image];
-    
-    self.displayView.frame = self.imagePreview.bounds;
-    CGPoint center = self.displayView.center;
-    CGFloat width, height;
-    if (self.image.size.height >= self.image.size.width) {
-        height = self.displayView.frame.size.height;
-        width = self.image.size.width / self.image.size.height * height;
-    } else {
-        width = self.displayView.frame.size.width;
-        height = self.image.size.height / self.image.size.width * width;
+    if (!self.displayView) {
+        self.displayView = [[UIImageView alloc] initWithImage:self.image];
+        
+        self.displayView.frame = self.imagePreview.bounds;
+        CGPoint center = self.displayView.center;
+        CGFloat width, height;
+        if (self.image.size.height >= self.image.size.width) {
+            height = self.displayView.frame.size.height;
+            width = self.image.size.width / self.image.size.height * height;
+        } else {
+            width = self.displayView.frame.size.width;
+            height = self.image.size.height / self.image.size.width * width;
+        }
+        
+        CGRect frame = CGRectMake(0, 0, width, height);
+        self.displayView.frame = frame;
+        self.displayView.center = center;
+        [self.displayView setUserInteractionEnabled:YES];
+        
+        [self.imagePreview addSubview:self.displayView];
     }
     
-    CGRect frame = CGRectMake(0, 0, width, height);
-    self.displayView.frame = frame;
-    self.displayView.center = center;
-    [self.displayView setUserInteractionEnabled:YES];
-    
-    [self.imagePreview addSubview:self.displayView];
-    
-    // Add scaler
-    UIImage *img = [[UIImage imageNamed:@"scaler.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    self.scalerView = [[UIImageView alloc] initWithImage:img];
-    [self.scalerView setUserInteractionEnabled:YES];
-    
-    CGRect scalerFrame = CGRectMake(0, 0, self.displayView.frame.size.width/2, self.displayView.frame.size.height/2);
-    self.scalerView.frame = scalerFrame;
-
-    // Add gesture to scaler
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
-    [self.scalerView addGestureRecognizer:pan];
-    
-    [self.displayView addSubview:self.scalerView];
-    self.scalerView.center = CGPointMake(self.displayView.bounds.size.width/2, self.displayView.bounds.size.height/2);
+    if (!self.scalerView) {
+        CGRect scalerFrame = CGRectMake(0, 0, self.displayView.frame.size.width/2, self.displayView.frame.size.height/2);
+        self.scalerView = [[ScaleUIView alloc] initWithFrame:scalerFrame];
+        [self.scalerView setUserInteractionEnabled:YES];
+        self.scalerView.backgroundColor = [UIColor clearColor];
+        //self.scalerView.backgroundColor = [UIColor blackColor];
+        
+        // Add gesture to scaler
+        UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+        [self.scalerView addGestureRecognizer:pan];
+        
+        [self.displayView addSubview:self.scalerView];
+        self.scalerView.center = CGPointMake(self.displayView.bounds.size.width/2, self.displayView.bounds.size.height/2);
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,39 +100,49 @@ static CGFloat const MINIMUM_WIDTH = 100;
 #pragma mark - IBActions
 
 - (IBAction)searchClicked:(id)sender {
+    spinner.center = self.view.center;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
+    
     UploadSearchParams *params = [[UploadSearchParams alloc] init];
     
     params.imageFile = self.image;
     CGFloat scale = (self.image.size.height > self.image.size.width) ? self.image.size.height / self.displayView.frame.size.height : self.image.size.width / self.displayView.frame.size.width;
     
-    NSLog(@"%lf", self.displayView.frame.size.width);
+    //NSLog(@"%lf", self.displayView.frame.size.width);
     params.box = [[Box alloc] initWithX1:self.scalerView.frame.origin.x * scale y1:self.scalerView.frame.origin.y * scale x2:(self.scalerView.frame.origin.x  + self.scalerView.frame.size.width) * scale y2:(self.scalerView.frame.origin.y + self.scalerView.frame.size.height) * scale];
     
     NSLog(@"%d %d %d %d", params.box.x1, params.box.y1, params.box.x2, params.box.y2);
     params.fl = @[@"im_url"];
+    params.limit = 18;
     
     [[SearchClient sharedInstance] searchWithImageData:params success:^(NSInteger statusCode, ViSearchResult *data, NSError *error) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         ColorSearchViewController *vc = [sb instantiateViewControllerWithIdentifier:@"color_search"];
         vc.searchResults = data.imageResultsArray;
         
+        
         dispatch_async(dispatch_get_main_queue(), ^{
+            [spinner stopAnimating];
             [self presentViewController:vc animated:YES completion:^{
                 vc.collectionView.hidden = YES;
             }];
         });
     } failure:^(NSInteger statusCode, ViSearchResult *data, NSError *error) {
-        ;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [spinner stopAnimating];
+        });
     }];
 }
 
 - (IBAction)backClicked:(id)sender {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - Gesture
 
 - (void)pan:(UIPanGestureRecognizer *)recognizer {
+    
     static PanPostition panPostion = PanAtNone;
     //[self adjustAnchorPointForGestureRecognizer:recognizer];
     if (recognizer.state == UIGestureRecognizerStateBegan) {
@@ -224,6 +240,7 @@ static CGFloat const MINIMUM_WIDTH = 100;
         }
         
         [recognizer setTranslation:CGPointMake(0, 0) inView:recognizer.view];
+        [self.scalerView setNeedsDisplay];
     }
 }
 
@@ -232,7 +249,7 @@ PanPostition getPosition(CGPoint position, CGFloat width, CGFloat height){
     CGFloat y = position.y;
     
     PanPostition panPostion = PanAtNone;
-    if (y >= height - 40 && y <= height + 10 && x >= width - 40 && x <= width + 10) {
+    if (y >= height - 40 && y <= height + 30 && x >= width - 40 && x <= width + 30) {
         panPostion = PanAtBottomRightCorner;
     }
     else if (y >= height - 40 && y <= height + 10 && x >= -10 && x <= 40) {

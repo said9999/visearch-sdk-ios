@@ -58,7 +58,7 @@
     if (collectionView == self.collectionView) {
         cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"color_search_cell" forIndexPath:indexPath];
         
-        cell.backgroundColor = [UIColor redColor];
+        cell.backgroundColor = [self.colorList objectAtIndex:[indexPath row]];
     } else {
         cell = [self.secondCollectionView dequeueReusableCellWithReuseIdentifier:@"color_search_result_cell" forIndexPath:indexPath];
         
@@ -112,6 +112,7 @@
         ColorSearchParams *param = [ColorSearchParams new];
         param.color = [UIColor toHexStringFrom:cell.backgroundColor];
         param.fl = @[@"im_url"];
+        param.limit = 18;
         
         [[SearchClient sharedInstance] searchWithColor:param success:^(NSInteger statusCode, ViSearchResult *data, NSError *error) {
             _state = DisplayResults;

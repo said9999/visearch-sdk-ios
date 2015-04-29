@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AbstractViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : AbstractViewController
 
 - (IBAction)ImageButtonClicked:(id)sender;
 - (IBAction)colorButtonClicked:(id)sender;
