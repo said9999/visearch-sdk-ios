@@ -16,6 +16,7 @@
 @property (strong, nonatomic) IBOutlet UIView *imagePreview; // A background view of display view.
 @property (strong, nonatomic) UIImageView *displayView; // uiimageview of the original image
 @property (strong, nonatomic) ScaleUIView *scalerView; // scale box view
+@property (weak, nonatomic) IBOutlet UIView *navigationBarView;
 
 - (IBAction)backClicked:(id)sender;
 - (IBAction)searchClicked:(id)sender;

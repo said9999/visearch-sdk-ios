@@ -21,6 +21,7 @@
     NSMutableDictionary *imageUrlCache;
     dispatch_queue_t imgLoadQ;
     BOOL colorOnTop;
+    BOOL isColorSearching;
 }
 
 #pragma mark LifeCycle
@@ -43,6 +44,7 @@
     av = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     av.frame = CGRectMake(0, 0, 25, 25);
     imgLoadQ = dispatch_queue_create("img_load", DISPATCH_QUEUE_CONCURRENT);
+    isColorSearching = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -103,7 +105,9 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (collectionView == self.collectionView) {
+    if (collectionView == self.collectionView && !isColorSearching) {
+        isColorSearching = YES;
+        
         UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
         av.center = cell.contentView.center;
         [cell addSubview:av];
@@ -123,10 +127,12 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 //ui switch and reload
                 [self flip];
+                isColorSearching = NO;
                 [self.secondCollectionView reloadData];
             });
         } failure:^(NSInteger statusCode, ViSearchResult *data, NSError *error) {
             [av stopAnimating];
+            isColorSearching = NO;
         }];
     }
 }

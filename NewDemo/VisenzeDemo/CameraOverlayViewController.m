@@ -16,6 +16,7 @@
 
 @implementation CameraOverlayViewController {
     UIImagePickerController *picker;
+    AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
 }
 
 #pragma mark - LifeCycle
@@ -35,29 +36,30 @@
     session.sessionPreset = AVCaptureSessionPresetMedium;
     
     // sync image preview with video preview
-    AVCaptureVideoPreviewLayer *captureVideoPreviewLayer =
-        [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
-    captureVideoPreviewLayer.frame = self.imagePreview.bounds;
-    [self.imagePreview.layer addSublayer:captureVideoPreviewLayer];
-    
-    // init with rear camera
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    NSError *error = nil;
-    AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
-    if (!input) {
-        // Handle the error appropriately.
-        NSLog(@"ERROR: trying to open camera: %@", error);
+    if (!captureVideoPreviewLayer) {
+        captureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:session];
+        captureVideoPreviewLayer.frame = self.imagePreview.bounds;
+        [self.imagePreview.layer addSublayer:captureVideoPreviewLayer];
+        
+        // init with rear camera
+        AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        NSError *error = nil;
+        AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+        if (!input) {
+            // Handle the error appropriately.
+            NSLog(@"ERROR: trying to open camera: %@", error);
+        }
+        [session addInput:input];
+        
+        // stored captured images into output
+        self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+        NSDictionary *outputSettings = [[NSDictionary alloc]
+                                        initWithObjectsAndKeys: AVVideoCodecJPEG, AVVideoCodecKey, nil];
+        [self.stillImageOutput setOutputSettings:outputSettings];
+        [session addOutput:self.stillImageOutput];
+        
+        [session startRunning];
     }
-    [session addInput:input];
-    
-    // stored captured images into output
-    self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-    NSDictionary *outputSettings = [[NSDictionary alloc]
-        initWithObjectsAndKeys: AVVideoCodecJPEG, AVVideoCodecKey, nil];
-    [self.stillImageOutput setOutputSettings:outputSettings];
-    [session addOutput:self.stillImageOutput];
-    
-    [session startRunning];
 }
 
 - (void)didReceiveMemoryWarning {

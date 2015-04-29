@@ -31,7 +31,8 @@ static CGFloat const MINIMUM_WIDTH = 100;
 
 @implementation ImageCropViewController {
     CGRect imgFrame;
-    UIActivityIndicatorView *spinner;
+    //UIActivityIndicatorView *spinner;
+    UIImageView *loadingView;
 }
 
 #pragma mark - Life Cycle
@@ -39,8 +40,8 @@ static CGFloat const MINIMUM_WIDTH = 100;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    spinner.frame = CGRectMake(0, 0, 25, 25);
+    //spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    //spinner.frame = CGRectMake(0, 0, 25, 25);
     // Do any additional setup after loading the view.
 }
 
@@ -100,9 +101,10 @@ static CGFloat const MINIMUM_WIDTH = 100;
 #pragma mark - IBActions
 
 - (IBAction)searchClicked:(id)sender {
-    spinner.center = self.view.center;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
+    //spinner.center = self.view.center;
+    //[self.view addSubview:spinner];
+    //[spinner startAnimating];
+    [self startLoadingAnimation];
     
     UploadSearchParams *params = [[UploadSearchParams alloc] init];
     
@@ -123,14 +125,16 @@ static CGFloat const MINIMUM_WIDTH = 100;
         
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [spinner stopAnimating];
+            //[spinner stopAnimating];
+            [self stopLoadingAnimation];
             [self presentViewController:vc animated:YES completion:^{
                 vc.collectionView.hidden = YES;
             }];
         });
     } failure:^(NSInteger statusCode, ViSearchResult *data, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [spinner stopAnimating];
+            //[spinner stopAnimating];
+            [self stopLoadingAnimation];
         });
     }];
 }
@@ -278,6 +282,30 @@ PanPostition getPosition(CGPoint position, CGFloat width, CGFloat height){
     }
     
     return panPostion;
+}
+
+#pragma mark - Loading Animation
+
+- (void)startLoadingAnimation {
+    CGRect frame = self.displayView.frame;
+    frame.origin.y = frame.origin.y - 600;
+    loadingView = [[UIImageView alloc] initWithFrame:frame];
+    
+    loadingView.image = [UIImage imageNamed:@"scan_pic.png"];
+    
+    [self.imagePreview addSubview:loadingView];
+    
+    [UIView animateWithDuration:1 delay:0 options:UIViewAnimationOptionRepeat animations:^{
+        CGPoint center = loadingView.center;
+        center.y = center.y + 1200;
+        loadingView.center = center;
+    } completion:^(BOOL finished) {
+        ;
+    }];
+}
+
+- (void)stopLoadingAnimation {
+    [loadingView removeFromSuperview];
 }
 
 @end
